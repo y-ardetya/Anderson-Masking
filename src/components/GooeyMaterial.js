@@ -8,6 +8,7 @@ const GooeyMaterial = shaderMaterial(
     uResolution: new THREE.Vector2(window.innerWidth, window.innerHeight),
     uMouse: new THREE.Vector2(0, 0),
     uProgress: 0,
+    uScale: 0,
   },
   /* glsl */ `
 
@@ -22,6 +23,7 @@ const GooeyMaterial = shaderMaterial(
     uniform vec2 uResolution;
     uniform vec2 uMouse;
     uniform float uProgress;
+    uniform float uScale;
 
     varying vec2 vUv;
 
@@ -107,19 +109,18 @@ const GooeyMaterial = shaderMaterial(
         st.y *= uResolution.y/uResolution.x;
 
         vec2 mouse = uMouse * -0.5;
+      
         vec2 circlePos = st + mouse;
 
         float offsetX = vUv.x + sin(vUv.y + uTime * .1);
         float offsetY = vUv.y - uTime * 0.1 - cos(uTime * .001) * .1;
 
-        float c = circle(circlePos, 0.1, 0.5) * 2.0;
-        float n = snoise(vec3(offsetX, offsetY, uTime * 0.1) * 3.0) - 1.0;
+        float c = circle(circlePos, uScale, 0.3) * 2.5;
+        float n = snoise(vec3(offsetX, offsetY, uTime * 0.1) * 4.0) - 1.0;
         float finalMask = smoothstep(0.4, 0.5, n + c);
 
-
-        vec4 colorA = vec4(0.8, 1.0, 0.3, 0.9);
-        vec4 colorB = vec4(1.0, 1.0, 1.0, 0.1);
-
+        vec4 colorA = vec4(0.8, 1.0, 0.3, 0.8);
+        vec4 colorB = vec4(1.0, 1.0, 1.0, 0.0);
         vec4 finalColor = mix(colorA, colorB, finalMask);
         
         gl_FragColor = finalColor;
