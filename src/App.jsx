@@ -47,8 +47,6 @@ const Scene = () => {
 
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <directionalLight intensity={2} position={[0, 0, 5]} />
       <mesh scale={[viewport.width, viewport.height, 1]}>
         <planeGeometry />
         <m3.gooeyMaterial
