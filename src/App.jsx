@@ -1,13 +1,17 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { GooeyMaterial } from "./components/GooeyMaterial";
-import Asia from "./components/Asia";
 import { motion as m3 } from "framer-motion-3d";
+import Apart from "./components/Apart";
+import { PresentationControls } from "@react-three/drei";
+import { gsap } from "gsap";
+import Overlay from "./components/Overlay";
 
 const App = () => {
   return (
     <>
+      <Overlay />
       <Canvas>
         <Scene />
       </Canvas>
@@ -18,20 +22,34 @@ const App = () => {
 const Scene = () => {
   const $shader = useRef();
   const { viewport } = useThree();
-  const [active, setActive] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   useFrame((state, delta) => {
     $shader.current.uniforms.uTime.value += delta;
-    $shader.current.uniforms.uMouse.value.x =
-      (state.pointer.x * viewport.width) / 2;
-    $shader.current.uniforms.uMouse.value.y =
-      (state.pointer.y * viewport.height) / 2;
   });
+
+  useEffect(() => {
+    window.addEventListener("mousemove", (e) => {
+      gsap.to($shader.current.uniforms.uMouse.value, 0.5, {
+        x: (e.clientX / window.innerWidth) * 2 - 1,
+        y: -(e.clientY / window.innerHeight) * 2 + 1,
+        ease: "easeOut",
+        duration: 0.2,
+      });
+    });
+
+    gsap.to($shader.current.uniforms.uScale, {
+      value: hovered ? 0.03 : 10,
+      duration: 0.6,
+      ease: "easeOut",
+    });
+  }, [hovered]);
 
   return (
     <>
-      <ambientLight />
-      <m3.mesh scale={[viewport.width, viewport.height, 1]}>
+      <ambientLight intensity={0.5} />
+      <directionalLight intensity={2} position={[0, 0, 5]} />
+      <mesh scale={[viewport.width, viewport.height, 1]}>
         <planeGeometry />
         <m3.gooeyMaterial
           ref={$shader}
@@ -40,20 +58,16 @@ const Scene = () => {
           transparent={true}
           side={THREE.DoubleSide}
           key={GooeyMaterial.key}
-          initial={{ uScale: 10 }}
-          animate={active ? { uScale: 0.05 } : { uScale: 10 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
         />
-      </m3.mesh>
-      <mesh
-        scale={0.5}
-        onPointerEnter={() => setActive(true)}
-        onPointerLeave={() => setActive(false)}
-      >
-        <sphereGeometry />
-        <meshBasicMaterial color="mediumpurple" />
       </mesh>
-      <Asia />
+      <PresentationControls
+        config={{ mass: 2, tension: 100, friction: 30 }}
+        snap={{ mass: 0.4, tension: 10, friction: 30 }}
+        azimuth={[-1, 0.5]}
+        polar={[0, Math.PI / 2]}
+      >
+        <Apart hovered={hovered} setHovered={setHovered} />
+      </PresentationControls>
     </>
   );
 };
