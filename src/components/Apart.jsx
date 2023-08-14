@@ -13,7 +13,6 @@ export default function Apart(props) {
   const { setHovered } = props;
   return (
     <group
-    
       {...props}
       dispose={null}
       rotation={[0, -Math.PI / 1.8, 0]}
@@ -55,8 +54,8 @@ export default function Apart(props) {
           scale={[409.82, 566.2, 409.82]}
         />
         <group
-          onPointerEnter={() => setHovered(true)}
-          onPointerLeave={() => setHovered(false)}
+        // onPointerEnter={() => setHovered(true)}
+        // onPointerLeave={() => setHovered(false)}
         >
           <mesh
             geometry={nodes.Sphere_Material002_0.geometry}
@@ -66,7 +65,12 @@ export default function Apart(props) {
             scale={[-7.83, 7.83, 7.83]}
           >
             <Html prepend wrapperClass="light">
-              Light
+              <div
+                onPointerEnter={() => setHovered(true)}
+                onPointerLeave={() => setHovered(false)}
+              >
+                Light
+              </div>
             </Html>
           </mesh>
           <mesh
@@ -99,16 +103,19 @@ export default function Apart(props) {
           scale={[478.37, 292.06, 478.37]}
         ></mesh>
         <mesh
-          onPointerEnter={() => setHovered(true)}
-          onPointerLeave={() => setHovered(false)}
           geometry={nodes.painting_Material010_0.geometry}
           material={materials["Material.010"]}
           position={[-95.42, 138.41, -478.87]}
           rotation={[-1.72, 0, 0]}
           scale={[70.79, 3.49, 138.03]}
         >
-          <Html prepend wrapperClass="painting">
-            Painting
+          <Html prepend wrapperClass="painting" position={[-1.5, 0, 0]}>
+            <div
+              onPointerEnter={() => setHovered(true)}
+              onPointerLeave={() => setHovered(false)}
+            >
+              Painting
+            </div>
           </Html>
         </mesh>
         <mesh
@@ -135,7 +142,12 @@ export default function Apart(props) {
           scale={[39.96, 73.88, 24.62]}
         >
           <Html prepend wrapperClass="sofa">
-            Sofa
+            <div
+              onPointerEnter={() => setHovered(true)}
+              onPointerLeave={() => setHovered(false)}
+            >
+              Sofa
+            </div>
           </Html>
         </mesh>
         <mesh

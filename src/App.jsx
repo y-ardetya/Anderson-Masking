@@ -37,12 +37,12 @@ const Scene = () => {
         x: (e.clientX / window.innerWidth) * 2 - 1,
         y: -(e.clientY / window.innerHeight) * 2 + 1,
         ease: "easeOut",
-        duration: 0.2,
+        duration: 0.1,
       });
     });
 
     gsap.to($shader.current.uniforms.uScale, {
-      value: hovered ? 0.01 : 10,
+      value: hovered ? 0.05 : 10,
       duration: 0.6,
       ease: "easeOut",
     });

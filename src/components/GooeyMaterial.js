@@ -84,14 +84,14 @@ const GooeyMaterial = shaderMaterial(
         vec2 st = gl_FragCoord.xy/res.xy - vec2(0.5);
         st.y *= res.y/res.x;
 
-        vec2 mouse = uMouse * -0.5;
+        vec2 mouse = uMouse * -0.4;
         vec2 circlePos = st + mouse;
 
         float offsetX = vUv.x + sin(vUv.y + uTime * .1);
         float offsetY = vUv.y - uTime * 0.1 - cos(uTime * .01) * .01;
 
-        float c = circle(circlePos, uScale, 0.3) * 2.5;
-        float noise = snoise(vec3(offsetX * 1.5, offsetY * 1.7, uTime * 0.1) * 4.0) - 1.0;
+        float c = circle(circlePos, uScale, 0.5) * 2.5;
+        float noise = snoise(vec3(offsetX * 1.5, offsetY * 1.5, uTime * 0.1) * 3.0) - 1.0;
         float finalMask = smoothstep(0.4, 0.5, noise + c);
 
         vec4 colorA = vec4(0.8, 0.5, 0.3, 0.8);

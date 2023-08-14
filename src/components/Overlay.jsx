@@ -1,17 +1,8 @@
 const Overlay = () => {
   return (
     <div className="container">
-      <div className="navbar">
-        <ul>
-          <li>Home</li>
-          <li>About</li>
-          <li>Contact</li>
-        </ul>
-      </div>
-      <div className="content">
-        <h1>Exclusive Interior Design</h1>
-        <h2>Pre-Order Now</h2>
-      </div>
+      <h1>Shader Demo</h1>
+      <h2>Hover the text and Hold Left-Click to rotate</h2>
     </div>
   );
 };
