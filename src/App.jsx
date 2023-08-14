@@ -1,20 +1,23 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { GooeyMaterial } from "./components/GooeyMaterial";
 import { motion as m3 } from "framer-motion-3d";
 import Apart from "./components/Apart";
-import { PresentationControls } from "@react-three/drei";
+import { Loader, PresentationControls } from "@react-three/drei";
 import { gsap } from "gsap";
 import Overlay from "./components/Overlay";
 
 const App = () => {
   return (
     <>
-      <Overlay />
-      <Canvas>
-        <Scene />
-      </Canvas>
+      <Suspense fallback={null}>
+        <Overlay />
+        <Canvas>
+          <Scene />
+        </Canvas>
+      </Suspense>
+      <Loader />
     </>
   );
 };
@@ -39,7 +42,7 @@ const Scene = () => {
     });
 
     gsap.to($shader.current.uniforms.uScale, {
-      value: hovered ? 0.03 : 10,
+      value: hovered ? 0.01 : 10,
       duration: 0.6,
       ease: "easeOut",
     });
